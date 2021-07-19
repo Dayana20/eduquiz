@@ -4,6 +4,7 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
 
+
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
 #print(secrets.token_hex(16))
@@ -46,7 +47,10 @@ def login():
 def home():
     return render_template('home.html', title='Home Page', subtitle='Hub for the website')
 
-  
-  
+@app.route("/quiz_page", methods=['GET', 'POST'])
+def quiz_page():
+    zola = RegistrationForm()
+    return render_template('choose_quiz.html', title = 'Choose_quiz', form = zola)
+    
 if __name__ == '__main__':
   app.run(debug=True, host="0.0.0.0")
