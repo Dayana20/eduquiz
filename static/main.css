@@ -81,10 +81,10 @@ a.article-title:hover {
 
 /* Quizzes Page */
 .button-group button {
-  border-radius: 12px;
-  background-color: #cbadd8; /* Lavender background */
-  border: 1px solid #cbadd8; /* Lavender border */
-  color: white; /* White text */
+  border-radius: 18px;
+  background-color: #e7deea; /* Lavender background */
+  border: 1px solid #e7deea; /* Lavender border */
+  color: #000000; /* White text */
   padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
@@ -112,7 +112,7 @@ a.article-title:hover {
   border-radius: 12px;
   background-color: #add8b6; /* Lavender background */
   border: 1px solid #add8b6; /* Lavender border */
-  color: white; /* White text */
+  color: #000000; /* White text */
   padding: 32px 16px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
