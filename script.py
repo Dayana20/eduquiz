@@ -6,7 +6,8 @@ import secrets
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
-app.config['SECRET_KEY'] = 'e6d894ab9aa5e4b585f29ff83a43d75c'
+#print(secrets.token_hex(16))
+app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 db = SQLAlchemy(app)
 
 # For storing user data
@@ -20,8 +21,6 @@ class User(db.Model):
     return f"User('{self.username}', '{self.email}', '{self.password}')"
 
 
-
-@app.route("/")
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -41,6 +40,8 @@ def login():
 
 
 # Temp function so it can exist without error
+
+@app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html', title='Home Page', subtitle='Hub for the website')
