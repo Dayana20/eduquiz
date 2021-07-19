@@ -21,6 +21,8 @@
           <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="/">Home</a>
             <a class="nav-item nav-link" href="/about">About</a>
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
           </div>
         </div>
       </div>
@@ -29,7 +31,8 @@
   <main role="main" class="container">
     <div class="row">
       <div class="col-md-8">
-        <h1>This shows up on every page</h1> {% with messages = get_flashed_messages(with_categories=true) %}
+        <h1>This shows up on every page</h1> 
+        {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
        <div class="alert alert-{{ category }}">
@@ -37,7 +40,8 @@
       </div>
     {% endfor %}
   {% endif %}
-{% endwith %}{% block content %}{% endblock %}
+{% endwith %}
+        {% block content %}{% endblock %}
       </div>
     </div>
   </main>
