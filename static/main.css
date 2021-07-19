@@ -78,3 +78,60 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+/* Quizzes Page */
+.button-group button {
+  border-radius: 12px;
+  background-color: #cbadd8; /* Lavender background */
+  border: 1px solid #cbadd8; /* Lavender border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  margin-right:5px;
+}
+
+.button-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.button-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.button-group button:hover {
+  background-color: #5896bc;
+}
+
+/*2nd quizzes  */
+.type_button {
+  border-radius: 12px;
+  background-color: #add8b6; /* Lavender background */
+  border: 1px solid #add8b6; /* Lavender border */
+  color: white; /* White text */
+  padding: 32px 16px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  margin-right:20px;
+  margin-top: 20px;
+}
+
+.type_button-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.type_button-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.type_button-group button:hover {
+  background-color: #dd6161;
+} */

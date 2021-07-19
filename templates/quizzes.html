@@ -1,0 +1,24 @@
+<!-- {% for x in altpass %} prints from altpass list
+    <a class="type_button" href="/my-link/">{{x}}</a>
+{% endfor %}  -->
+
+{% extends "layout.html" %}
+{% block content %}
+    <h2>{{ subtitle }}</h2>
+    <p>{{ text }}</p>
+    <div class="button-group">
+<!--       <a href=random> <button>Random</button> </a> -->
+      <a href="/funny"> <button>Funny</button> </a>
+      <a href="/random"> <button>Random</button> </a>
+      <a href="/educational"> <button>Educational</button> </a>
+      <a href="/countries"> <button>Countries</button> </a>
+      <a href="/languages"> <button>Languages</button> </a>
+      <a href="/technology"> <button>Technology</button> </a>
+      <a href="/food"> <button>Food</button> </a>
+    </div>
+    {% for x in altpass %} <!-- prints from altpass list -->
+        <a class="type_button" href="/my-link/">{{x}}</a>
+    {% endfor %}
+
+{% endblock content %}
+
