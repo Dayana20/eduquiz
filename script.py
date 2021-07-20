@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
+from quiz_mainpage import RegistrationForm
 from registration_forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
@@ -12,19 +13,27 @@ app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
+# Temp function so it can exist without error
+@app.route("/")
+def main():
+    return render_template('home.html', subtitle='Home Page')
+
+# @app.route("/home")
+# def home():
+#     return render_template('home.html', subtitle='Home Page')
 
 # Set up bcrypt for password hashing
 bcrypt = Bcrypt()
 
 # For storing user data
 class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  username = db.Column(db.String(20), unique=True, nullable=False)
-  email = db.Column(db.String(120), unique=True, nullable=False)
-  password = db.Column(db.String(60), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
 
-  def __repr__(self):
-    return f"User('{self.username}', '{self.email}', '{self.password}')"
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}', '{self.password}')"
 
 ###
 # Helper Functions
@@ -39,7 +48,7 @@ def encrypt_password(password):
 def check_password_match(pw_hash, guess):
     return bcrypt.check_password_hash(pw_hash, guess) 
   
-  
+#register  
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -92,16 +101,68 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 
-# Temp function so it can exist without error
-@app.route("/")
-@app.route("/home")
-def home():
-    return render_template('home.html', title='Home Page', subtitle='Hub for the website')
+@app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
+def general_quiz(quiz_data):
+    #randomly select a quiz from sql table  
+    data  = quiz_data.split(',')
+    question = data[0][1:]
+    options = data[1:]
+    answer = " 'answer to question'])"
+    if request.method== 'POST':
+        user_answer = request.form.get('toReturn')
+        if(user_answer==answer):
+            flash('Correct!')
+        else:
+            flash('Incorrect! :(')
+        return render_template('home.html', subtitle='Home Page')
+    return render_template('quiz.html', subtitle='Quiz',question=question,answer=answer,options=options )
+
+
+@app.route('/random/')
+def random():
+    quizzes = {'Random Quiz 1':['option1','option2','option3','answer to question'], 'Random Quiz 2':['option1','option2','option3','answer to question']}
+    
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/funny/')
+def funny():
+    quizzes = {'funny Quiz 1':['option1','option2','option3','answer to question'], 'funny Quiz 2':['option1','option2','option3','answer to question']}
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/educational/')
+def educational():
+    quizzes = {'educational Quiz 1':['option1','option2','option3','answer to question'], 'educational Quiz 2':['option1','option2','option3','answer to question']}
+
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/countries/')
+def countries():
+    quizzes = {'countries Quiz 1':['option1','option2','option3','answer to question'], 'countries Quiz 2':['option1','option2','option3','answer to question']}
+
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/languages/')
+def languages():
+    quizzes = {'languages Quiz 1':['option1','option2','option3','answer to question'], 'languages Quiz 2':['option1','option2','option3','answer to question']}
+
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/technology/')
+def technology():
+    quizzes = {'technology Quiz 1':['option1','option2','option3','answer to question'], 'technology Quiz 2':['option1','option2','option3','answer to question']}
+
+    return render_template('choose_quiz.html', altpass =quizzes)
+
+@app.route('/food/')
+def food():
+    quizzes = {'food Quiz 1':['option1','option2','option3','answer to question'], 'food Quiz 2':['option1','option2','option3','answer to question']}
+
+    return render_template('choose_quiz.html', altpass =quizzes)
 
 @app.route("/quiz_page", methods=['GET', 'POST'])
 def quiz_page():
-    zola = RegistrationForm()
-    return render_template('choose_quiz.html', title = 'Choose_quiz', form = zola)
+    quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
+    return render_template('choose_quiz.html', altpass=quizzes)
     
 if __name__ == '__main__':
-  app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")

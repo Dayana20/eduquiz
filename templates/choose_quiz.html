@@ -1,74 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Page Layout</title>
-    <style>
-        .head1 {
-            font-size:40px;
-            color:#009900;
-            font-weight:bold;
-        }
-        .head2 {
-            font-size:17px;
-            margin-left:10px;
-            margin-bottom:15px;
-        }
-        body {
-            margin: 0 auto;
-            background-position:center;
-            background-size: contain;
-        }
-      
-        .menu {   
-            position: sticky;
-            top: 0;
-            background-color: #009900;
-            padding:10px 0px 10px 0px;
-            color:white;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .menu a {
-            float: left;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 20px;
-        }
-        .menu-log {
-            right: auto;
-            float: right;
-        }
-        footer {
-            width: 100%;
-            bottom: 0px;
-            background-color: #000;
-            color: #fff;
-            position: absolute;
-            padding-top:20px;
-            padding-bottom:50px;
-            text-align:center;
-            font-size:30px;
-            font-weight:bold;
-        }
-        .body_sec {
-            margin-left:20px;
-        }
-    </style>
-</head>
-  
-<body>
+{% extends "layout.html" %}
+{% block content %}
+
       
     <!-- Header Section -->
     <header>
-        <div class="head1">Eduquiz</div>
-        <div class="head2">Looking for a fun way to gain some knowledge? You're in the right place!!:)</div>
+        <h1>Eduquiz</h1>
+        <h4>Looking for a fun way to gain some knowledge? You're in the right place!! :)</h4>
+        <div class="menu-log">
+            <a href="#Chat">Chat</a>
+        </div>
     </header>
       
     <!-- Menu Navigation Bar -->
-    <div class="menu">
-        <a href="#Zodiac">Zodiac</a>
+    <div class="dropdown">
+        <button class="dropbtn">
+            Menu
+        </button>
+<!--         <a href="#Zodiac">Zodiac</a>
         <a href="#Latest">Latest</a>
         <a href="#Marvel">Marvel</a>
         <a href="#Trivia">Trivia</a>
@@ -77,22 +25,34 @@
         <a href="#Astronomy">Astronomy</a>
         <a href="#Physics">Physics</a>
         <a href="#Anime">Anime</a>
-        <a href="#Logo">Logo</a>
-        
-        <div class="menu-log">
-            <a href="#Chat">Chat</a>
+        <a href="#Logo">Logo</a> -->
+        <div class="dropdown-content">
+            <a href="/funny"> <button>Funny</button> </a>
+            <a href="/random"> <button>Random</button> </a>
+            <a href="/educational"> <button>Educational</button> </a>
+            <a href="/countries"> <button>Countries</button> </a>
+            <a href="/languages"> <button>Languages</button> </a>
+            <a href="/technology"> <button>Technology</button> </a>
+            <a href="/food"> <button>Food</button> </a>
         </div>
+        
     </div>
       
     <!-- Body section -->
     <div class = "body_sec">
         <section id="Content">
-            <h3>Quizes</h3>
-            <h3>Content goes here</h3>
+            <h3>Quizes:</h3>
         </section>
+        <!-- prints from altpass list -->
+        {% for key,value in altpass.items() %}
+            <a class="type_button" href="/general_quiz/{{key,value}}">
+                {{key}}
+            </a>
+        {% endfor %}
+
+<!--         <form action="/general_quiz/" method="post">quiz: <a>Text</a> </form> -->
     </div>
       
-    <!-- Footer Section -->
-    <footer>Footer Section</footer>
-</body>
-</html>
+    
+
+{% endblock content %}
