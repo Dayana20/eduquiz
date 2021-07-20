@@ -68,7 +68,7 @@ def main():
     fileName = 'quiz_file'
     dbName = 'quiz_db'
 
-    base_url = 'https://opentdb.com/api.php?amount=2'
+    base_url = 'https://opentdb.com/api.php?amount=50'
 
     # explore the session_token option to get unique questions
     # session_token = '12286e9bb10cfcfa9ea7597f1ee68cdd'
