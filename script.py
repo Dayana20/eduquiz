@@ -3,7 +3,6 @@ from registration_forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
-
 from flask_bcrypt import Bcrypt #install flask-bcrypt
 
 app = Flask(__name__)
@@ -39,7 +38,6 @@ def encrypt_password(password):
 # Check if encrypted pasword and guess input password match, thus valid
 def check_password_match(pw_hash, guess):
     return bcrypt.check_password_hash(pw_hash, guess) 
-
   
   
 @app.route("/register", methods=['GET', 'POST'])
