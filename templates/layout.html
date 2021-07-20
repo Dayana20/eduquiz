@@ -19,8 +19,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggle">
           <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="/home">Home</a>
+            <a class="nav-item nav-link" href="/">Home</a>
             <a class="nav-item nav-link" href="/about">About</a>
+            <a class="nav-item nav-link" href="/quiz_page">Quizzes</a>
             <a class="nav-item nav-link" href="/login">Login</a>
             <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link" href= "/user_page">User Page</a>
@@ -43,8 +44,8 @@
             {% endfor %}
           {% endif %}
         {% endwith %}
-        
-        {% block content %}{% endblock %}
+        {% block content %}
+          {% endblock %}
       </div>
     </div>
   </main>

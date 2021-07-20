@@ -1,3 +1,4 @@
+/* LAYOUT */
 body {
   background: #fafafa;
   color: #333333;
@@ -5,7 +6,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+  color: #000000;
+  font-weight:600;
 }
 
 .bg-steel {
@@ -13,11 +15,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #ffffff;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #297ed8;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -78,3 +80,122 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+/* END OF LAYOUT */
+
+/* Selection Page */
+.head1 {
+    margin: auto;
+    font-size:40px;
+    color:#60d3e0;
+    font-weight:bold;
+}
+.head2 {
+    margin: auto;
+    font-size:17px;
+    margin-left:10px;
+    margin-bottom:15px;
+}
+/* CHAT BUTTON */
+.menu-log {
+  margin-top:30px;
+  margin-bottom:30px;
+  background-color: #ADD8E6;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  right: auto;
+  float: right;
+}
+/*  END OF SELECTION PAGE*/
+
+/*Quizzes to Select  */
+.type_button {
+  border-radius: 12px;
+  background-color: #add8b6; /* Lavender background */
+  border: 1px solid #add8b6; /* Lavender border */
+  color: #000000; /* White text */
+  padding: 32px 16px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  margin-right:20px;
+  margin-top: 20px;
+}
+
+.type_button-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.type_button-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.type_button-group button:hover {
+  background-color: #dd6161;
+}
+/* END OF QUIZZES TO SELECT */
+
+.quiz_title{
+  color: #000000;
+    
+}
+
+/* quiz page */
+.options_button{
+  font-weight: 500;
+  border-radius: 12px;
+  background-color: #adaed8; /* Lavender background */
+  border: 1px solid #adaed8; /* Lavender border */
+  color: #000000; /* Black text */
+  padding: 32px 16px; /* Some padding */
+  margin-right:20px;
+  margin-top: 20px;
+  display: block
+}
+
+/*  DROPDOWN MENU*/
+/* Dropdown Button */
+.dropbtn {
+  margin-top:30px;
+  margin-bottom:30px;
+  background-color: #ADD8E6;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ADD8E6;
+  min-width: 160px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #ADD8E6;}
+/* END OF DROPDOWN MENU */
