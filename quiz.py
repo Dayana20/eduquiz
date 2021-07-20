@@ -35,7 +35,7 @@ def render_quiz(dataframe, category, difficulty):
             else:
                 print("That is not correct!")
 
-    return random_quiz
+    # return random_quiz
 
 
 def main():
@@ -51,9 +51,10 @@ def main():
     # we have 24 unique categories in our database
     # print(dataframe['Category'].nunique())
 
-    # we have 39 questions of type History
-    # we have 6 questions of type Celebrities
-    # print(dataframe[dataframe['Category'] == 'History'].count())
+    # we have 99 questions of type History
+    # we have 11 questions of type Celebrities
+    # we have 164 True or False Questions against 1036 MCQ
+    # print(dataframe[dataframe['Question Type'] == 'multiple'].count())
 
     # list all the available categories and ask user for the category
     # and difficulty level they would like
@@ -64,7 +65,7 @@ def main():
     difficulty = input(
         'What difficulty level would you like (easy, medium, or hard)? ')
 
-    print(render_quiz(dataframe, category, difficulty))
+    render_quiz(dataframe, category, difficulty)
 
 
 if __name__ == "__main__":
