@@ -27,7 +27,10 @@ class User(db.Model):
   def __repr__(self):
     return f"User('{self.username}', '{self.email}', '{self.password}')"
 
-
+###
+# Helper Functions
+###
+  
 # Give a password to encrpyt by salting and hashing
 def encrypt_password(password):
     return bcrypt.generate_password_hash(password)
