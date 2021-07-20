@@ -14,9 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 
-# Set up bcrypt for password hashing
-bcrypt = Bcrypt()
-
 # For storing user data
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,23 +28,40 @@ class User(db.Model):
 # Uses the User class as inputs to log people in
 class Login_Manager():
     def __init__(self):
-        self.user = None
+        self.user = None #default not logged in
     
     # Login user by setting it to current user
-    def login(user):
+    def login(self, user):
         self.user = user
 
     # Logout user by setting user to None
-    def logout(user):
+    def logout(self, user):
         self.user = None
     
+    def is_logged_in(self):
+        if self.user is None:
+            return False
+        return True
+    
+    def get_username(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
+    
+    def get_email(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
     
     def __str__(self):
-        if self.user is None:
-            return 'Nobody is currently logged in'
+        if self.is_logged_in():
+            return f'Currently {self.user.username} is logged in'  
         else:
-  
-  
+            return 'Nobody is currently logged in'
+          
+log_manage = Login_Manager()      
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -94,6 +108,7 @@ def login():
             return render_template('login.html', title='Login', form=form)
         
         # Successful Login
+        log_manage.login(login_user)
         flash(f'{form.username.data} successfully logged in!', 'success')
         return redirect(url_for('home')) # if so - send to home page
         
@@ -109,6 +124,11 @@ def home():
 
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+         
+  
     #randomly select a quiz from sql table  
     data  = quiz_data.split(',')
     question = data[0][1:]
@@ -168,13 +188,23 @@ def food():
 
 @app.route("/quiz_page", methods=['GET', 'POST'])
 def quiz_page():
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+         
     quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
     return render_template('choose_quiz.html', altpass=quizzes)
     
 
 @app.route("/user_page/")
 def user_page():
-    username = "hello"
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+        
+  
+    username = log_manage.get_username()    
+    
     return render_template('user_page.html', title=f'Welcome {username}',
                            subtitle=f'This is the webpage for {username}')
 
