@@ -12,7 +12,6 @@ app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
-
 # Set up bcrypt for password hashing
 bcrypt = Bcrypt()
 
@@ -26,6 +25,7 @@ class User(db.Model):
   def __repr__(self):
     return f"User('{self.username}', '{self.email}', '{self.password}')"
 
+  
 ###
 # Helper Functions
 ###
@@ -102,6 +102,19 @@ def home():
 def quiz_page():
     zola = RegistrationForm()
     return render_template('choose_quiz.html', title = 'Choose_quiz', form = zola)
+    
+
+     
+@app.route("/user_page")
+def user_page():
+    return render_template('user_page.html', title=f'Welcome',
+                           subtitle=f'This is the webpage for BLANK')
+    
+@app.route("/user_page/<username>")
+def user_page(username):
+    return render_template('user_page.html', title=f'Welcome {username}',
+                           subtitle=f'This is the webpage for {username}')
+
     
 if __name__ == '__main__':
   app.run(debug=True, host="0.0.0.0")
