@@ -10,7 +10,7 @@ def list_categories(dataframe):
 
 def render_quiz(dataframe, category, difficulty):
     quiz_df = dataframe[(dataframe['Category'] == category) &
-                       (dataframe['Difficulty'] == difficulty)]
+                        (dataframe['Difficulty'] == difficulty)]
     random_quiz = quiz_df.sample(2)
     for index, row in random_quiz.iterrows():
         if row['Question Type'] == 'boolean':
@@ -34,7 +34,7 @@ def render_quiz(dataframe, category, difficulty):
                 print("You got it right!")
             else:
                 print("That is not correct!")
-            
+
     return random_quiz
 
 
@@ -46,11 +46,11 @@ def main():
 
     load_database(dbName, fileName)
     dataframe = pd.read_sql_table(tableName,
-                                     con=create_engine_function(dbName))
-    
+                                  con=create_engine_function(dbName))
+
     # we have 24 unique categories in our database
     # print(dataframe['Category'].nunique())
-    
+
     # we have 39 questions of type History
     # we have 6 questions of type Celebrities
     # print(dataframe[dataframe['Category'] == 'History'].count())
@@ -61,7 +61,8 @@ def main():
     print('         --------------------------------------------------')
     print(list_categories(dataframe))
     category = input('What category would you like to test yourself on? ')
-    difficulty = input('What difficulty level would you like (easy, medium, or hard)? ')
+    difficulty = input(
+        'What difficulty level would you like (easy, medium, or hard)? ')
 
     print(render_quiz(dataframe, category, difficulty))
 

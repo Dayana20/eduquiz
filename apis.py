@@ -35,9 +35,9 @@ def get_data_items(results):
         answer_choices_list.append(correct_answer)
         random.shuffle(answer_choices_list)
         answer_choices = answer_choices_list[0] + ', ' +\
-                         answer_choices_list[1] + ', ' +\
-                         answer_choices_list[2] + ', ' +\
-                         answer_choices_list[3]
+            answer_choices_list[1] + ', ' +\
+            answer_choices_list[2] + ', ' +\
+            answer_choices_list[3]
 
     return category, question_type, difficulty, question, correct_answer,\
         incorrect_answers, answer_choices
