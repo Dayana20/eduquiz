@@ -16,8 +16,9 @@
       <a href="/technology"> <button>Technology</button> </a>
       <a href="/food"> <button>Food</button> </a>
     </div>
-    {% for x in altpass %} <!-- prints from altpass list -->
         <a class="type_button" href="/my-link/">{{x}}</a>
+    {% for x in altpass %} <!-- prints from altpass list -->
+        
     {% endfor %}
 
 {% endblock content %}
