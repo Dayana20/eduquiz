@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import sqlalchemy
 import os
+import random
 from sqlalchemy import create_engine
 
 
@@ -13,7 +14,6 @@ def get_data_from_api(base_url):
     return results
 
 
-# test 6: check that country is a string and the others are integers
 def get_data_items(results):
     # data items to be used
     category = results['category']
@@ -24,17 +24,28 @@ def get_data_items(results):
     incorrect_answers_list = results['incorrect_answers']  # this is a list
     if len(incorrect_answers_list) == 1:
         incorrect_answers = incorrect_answers_list[0]
+        answer_choices = 'True, False'
     else:
         incorrect_answers = incorrect_answers_list[0] + ', ' +\
             incorrect_answers_list[1] + ', ' +\
             incorrect_answers_list[2]
+
+        # storing all answer choices in a random order
+        answer_choices_list = incorrect_answers_list
+        answer_choices_list.append(correct_answer)
+        random.shuffle(answer_choices_list)
+        answer_choices = answer_choices_list[0] + ', ' +\
+            answer_choices_list[1] + ', ' +\
+            answer_choices_list[2] + ', ' +\
+            answer_choices_list[3]
+
     return category, question_type, difficulty, question, correct_answer,\
-        incorrect_answers
+        incorrect_answers, answer_choices
 
 
 def create_dataframe():
     col_names = ['Category', 'Question Type', 'Difficulty', 'Question',
-                 'Correct Answer', 'Incorrect answer(s)']
+                 'Correct Answer', 'Incorrect Answer(s)', 'Answer Choices']
     dataframe = pd.DataFrame(columns=col_names)
     return dataframe
 
