@@ -38,7 +38,7 @@ class User(db.Model):
 ###
 # Helper Functions
 ###
-  
+ 
 # Give a password to encrpyt by salting and hashing
 def encrypt_password(password):
     return bcrypt.generate_password_hash(password)

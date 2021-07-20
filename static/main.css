@@ -199,3 +199,17 @@ a.article-title:hover {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #ADD8E6;}
 /* END OF DROPDOWN MENU */
+
+.group_mem{
+    float: left;
+    margin-left:50px;
+}
+
+.group_mem{
+    background-color: #c3c3e5;
+}
+
+.ending{
+    margin-top: 100px;
+    color:#991010;
+}
