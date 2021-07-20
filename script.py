@@ -3,7 +3,7 @@ from registration_forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
-from flask_bcrypt import Bcrypt #install flask-bcrypt
+from encryption import bcrypt, encrypt_password, check_password_match
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -11,9 +11,6 @@ proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-
-# Set up bcrypt for password hashing
-bcrypt = Bcrypt()
 
 # For storing user data
 class User(db.Model):
@@ -23,23 +20,31 @@ class User(db.Model):
   password = db.Column(db.String(60), nullable=False)
 
   def __repr__(self):
-    return f"User('{self.username}', '{self.email}', '{self.password}')"
+    return f"User('{self.username}', '{self.email}', '{self.password}')" 
+  
+# Saves the value of the logged in user. 
+# Uses the User class as inputs to log people in
+class Login_Manager():
+    def __init__(self):
+        self.user = None
+    
+    # Login user by setting it to current user
+    def login(user):
+        self.user = user
 
-  
-###
-# Helper Functions
-###
-  
-# Give a password to encrpyt by salting and hashing
-def encrypt_password(password):
-    return bcrypt.generate_password_hash(password)
-       
+    # Logout user by setting user to None
+    def logout(user):
+        self.user = None
+    
+    
+    def __str__(self):
+        if self.user is None:
+            return 'Nobody is currently logged in'
+        else:
+            return f'Currently {sel.user.username} is logged in'
 
-# Check if encrypted pasword and guess input password match, thus valid
-def check_password_match(pw_hash, guess):
-    return bcrypt.check_password_hash(pw_hash, guess) 
-  
-  
+          
+          
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -96,7 +101,8 @@ def login():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home Page', subtitle='Hub for the website')
+    return render_template('home.html', title='Home Page',
+                           subtitle='Hub for the website')
 
 @app.route("/quiz_page", methods=['GET', 'POST'])
 def quiz_page():
@@ -104,14 +110,9 @@ def quiz_page():
     return render_template('choose_quiz.html', title = 'Choose_quiz', form = zola)
     
 
-     
-@app.route("/user_page")
+@app.route("/user_page/")
 def user_page():
-    return render_template('user_page.html', title=f'Welcome',
-                           subtitle=f'This is the webpage for BLANK')
-    
-@app.route("/user_page/<username>")
-def user_page(username):
+    username = "hello"
     return render_template('user_page.html', title=f'Welcome {username}',
                            subtitle=f'This is the webpage for {username}')
 
