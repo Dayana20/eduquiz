@@ -4,7 +4,7 @@ from registration_forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
-from flask_bcrypt import Bcrypt #install flask-bcrypt
+from encryption import bcrypt, encrypt_password, check_password_match
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -13,17 +13,6 @@ app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
-# Temp function so it can exist without error
-@app.route("/")
-def main():
-    return render_template('home.html', subtitle='Home Page')
-
-# @app.route("/home")
-# def home():
-#     return render_template('home.html', subtitle='Home Page')
-
-# Set up bcrypt for password hashing
-bcrypt = Bcrypt()
 
 # For storing user data
 class User(db.Model):
@@ -35,20 +24,46 @@ class User(db.Model):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.password}')"
 
-###
-# Helper Functions
-###
-  
-# Give a password to encrpyt by salting and hashing
-def encrypt_password(password):
-    return bcrypt.generate_password_hash(password)
-       
 
-# Check if encrypted pasword and guess input password match, thus valid
-def check_password_match(pw_hash, guess):
-    return bcrypt.check_password_hash(pw_hash, guess) 
-  
-#register  
+# Saves the value of the logged in user. 
+# Uses the User class as inputs to log people in
+class Login_Manager():
+    def __init__(self):
+        self.user = None #default not logged in
+    
+    # Login user by setting it to current user
+    def login(self, user):
+        self.user = user
+
+    # Logout user by setting user to None
+    def logout(self, user):
+        self.user = None
+    
+    def is_logged_in(self):
+        if self.user is None:
+            return False
+        return True
+    
+    def get_username(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
+    
+    def get_email(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
+    
+    def __str__(self):
+        if self.is_logged_in():
+            return f'Currently {self.user.username} is logged in'  
+        else:
+            return 'Nobody is currently logged in'
+
+          
+log_manage = Login_Manager()      
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -95,14 +110,27 @@ def login():
             return render_template('login.html', title='Login', form=form)
         
         # Successful Login
+        log_manage.login(login_user)
         flash(f'{form.username.data} successfully logged in!', 'success')
         return redirect(url_for('home')) # if so - send to home page
         
     return render_template('login.html', title='Login', form=form)
 
 
+# Temp function so it can exist without error
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template('home.html', title='Home Page',
+                           subtitle='Hub for the website')
+
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+
+
     #randomly select a quiz from sql table  
     data  = quiz_data.split(',')
     question = data[0][1:]
@@ -159,10 +187,29 @@ def food():
 
     return render_template('choose_quiz.html', altpass =quizzes)
 
+
 @app.route("/quiz_page", methods=['GET', 'POST'])
 def quiz_page():
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+         
     quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
     return render_template('choose_quiz.html', altpass=quizzes)
+
+
+@app.route("/user_page/")
+def user_page():
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+        
+  
+    username = log_manage.get_username()    
     
+    return render_template('user_page.html', title=f'Welcome {username}',
+                           subtitle=f'This is the webpage for {username}')
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
