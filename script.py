@@ -5,7 +5,9 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
 from encryption import bcrypt, encrypt_password, check_password_match
-from quiz import getting_dataframe, quizzes_display
+from quiz import getting_dataframe, quizzes_display, get_options
+
+from markupsafe import Markup
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -140,21 +142,19 @@ def home():
     return render_template('home.html', title='Home Page',
                            subtitle='Hub for the website')
 
+df = getting_dataframe()
+
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
 #     if not log_manage.is_logged_in(): #uncomment out later
 #         flash(f'You must login first!', 'danger')
 #         return redirect(url_for('login')) # if so - send to home page
+#     print(df)
 
-
-    #randomly select a quiz from sql table  
-#     data  = quiz_data
-#     print("DATA:", quiz_data,"END HERE")
-#     print("Options: ", quiz_options)
-    print(quiz_data)
-    question = 'question'
-    options = ['a','b','c']
-    answer = "a"
+#     #randomly select a quiz from sql table  
+    answer, options = get_options(df, quiz_data)
+    if(isinstance(options,str)):
+        options = options.split(',')
     if request.method== 'POST':
         user_answer = request.form.get('toReturn')
         if(user_answer==answer):
@@ -162,7 +162,7 @@ def general_quiz(quiz_data):
         else:
             flash('Incorrect! :(')
         return render_template('home.html', subtitle='Home Page')
-    return render_template('quiz.html', subtitle='Quiz',question=question,answer=answer,options=options )
+    return render_template('quiz.html', subtitle='Quiz',question=quiz_data,answer=answer,options=options )
 
 
 @app.route('/Animals/')
@@ -308,7 +308,7 @@ def Vehicles():
 def quiz_page():
     df = getting_dataframe()
     data = quizzes_display(df, 'General Knowledge')
-    print(data) # answer,question,options
+#     print(data) # answer,question,options
 #     if not log_manage.is_logged_in(): #uncomment later
 #         flash(f'You must login first!', 'danger')
 #         return redirect(url_for('login')) # if so - send to home page

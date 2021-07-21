@@ -76,6 +76,26 @@ def getting_dataframe(): # got this from main to use the dataframe
     dataframe = pd.read_sql_table(tableName,
                                   con=create_engine_function(dbName))
     return dataframe
+def get_options(df, que):
+#     print(df.keys())
+#     print(df['Question'][33])
+#     for i,elem in enumerate(df['Question']):
+#         print(elem)
+#         if(elem == question):
+#             answer = df['Correct Answer'][i]
+#             options = df['Answer Choices'][i]
+#         else:
+#             print(question)
+#             return
+    print("questions::", que)
+#     print(df.keys())
+    for i in range(len(df)):
+        if(df['Question'][i][:-1]==que):
+            answer = df['Correct Answer'][i]
+            options = df['Answer Choices'][i]
+            print("WE MADE IT")
+            return answer,options
+    return "Broken", ["Try","Another","Quiz","THIS IS BROKEN :("]
     
 # def main():
 #     # defining some terms
@@ -110,6 +130,7 @@ def main():
     df = getting_dataframe()
     data = quizzes_display(df, 'Geography')
     print(data)
+    question = 'The Great Wall of China is visible from the moon.'
     
     
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-    
+<!--     {% for elem in altpass %}
+            <p>{{elem}}</p>
+            <p>{{altpass.get(elem)}}</p>
+    {% endfor %} -->
     <!-- Header Section -->
     <header>
         <h1>Eduquiz</h1>
@@ -63,10 +66,10 @@
             <h3>Quizes:</h3>
         </section>
         <!-- prints from altpass list -->
-        {% for elem in altpass %}
-            <!--/general_quiz/<string:quiz_data>/<string:quiz_options>      -->
-            <a class="type_button" href="/general_quiz/{{elem}}">
-               {{elem}}
+        {% for key in altpass.keys() %}
+            <!--/general_quiz/<string:quiz_data>/<string:quiz_options>/<string:key>      -->
+            <a class="type_button" href="/general_quiz/{{key}}">
+               {{key}}
             </a>
         {% endfor %}
 
