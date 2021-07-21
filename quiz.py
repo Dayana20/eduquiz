@@ -43,8 +43,7 @@ def render_quiz(dataframe, category, difficulty):
             else:
                 print("That is not correct!")
     print(f'Your score on this quiz is {score}/5')
-
-    # return random_quiz
+    return score
 
 
 def main():
