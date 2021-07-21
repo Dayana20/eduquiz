@@ -24,6 +24,7 @@ class User(db.Model):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.password}')"
 
+
 # Saves the value of the logged in user. 
 # Uses the User class as inputs to log people in
 class Login_Manager():
@@ -58,6 +59,7 @@ class Login_Manager():
             return f'Currently {self.user.username} is logged in'  
         else:
             return 'Nobody is currently logged in'
+
           
 log_manage = Login_Manager()      
 
@@ -127,8 +129,8 @@ def general_quiz(quiz_data):
     if not log_manage.is_logged_in():
         flash(f'You must login first!', 'danger')
         return redirect(url_for('login')) # if so - send to home page
-         
-  
+
+
     #randomly select a quiz from sql table  
     data  = quiz_data.split(',')
     question = data[0][1:]
@@ -194,7 +196,7 @@ def quiz_page():
          
     quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
     return render_template('choose_quiz.html', altpass=quizzes)
-    
+
 
 @app.route("/user_page/")
 def user_page():
@@ -208,6 +210,6 @@ def user_page():
     return render_template('user_page.html', title=f'Welcome {username}',
                            subtitle=f'This is the webpage for {username}')
 
-    
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
