@@ -52,3 +52,24 @@ def create_scatter_html(x, x_l, y, y_l, title):
     # Create and return html string
     
     return create_html_string(fig)
+  
+  
+# Creates barchart that compares given x paramaters, graphs output
+# their heights based on height instance
+# @para        x: array of x-axis values
+# @para      x_l: string of x-axis value
+# @para   height: array of heights for given x values
+# @para height_l: string of label for heights
+# @para    title: string title of plot
+# @return: html string that will load the image (refer to create_html_string()
+#          function for more details)
+def create_bar_html(x, x_l, height, height_l, title):
+    fig = figure.Figure()
+    bar = fig.add_subplot()
+    bar.bar(x=x, height=height)
+    bar.set_xlabel(x_l)
+    bar.set_ylabel(heightl)
+    bar.set_title(title)
+    
+    # Create and return html string
+    return create_html_string(fig)
