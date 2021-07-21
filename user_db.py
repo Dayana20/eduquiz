@@ -22,17 +22,23 @@ def db_to_dataframe(dbName, tableName, fileName):
     return dataframe
 
 
+def put_values_dataframe(dataframe, id, username):
+    dataframe.loc[len(dataframe.index)] = (id, username, 0, 0, 0)
+    return dataframe
+
+
 def new_user(id, username):
     tableName = 'user_data'
-    fileName = 'user_file'
+    fileName = 'quiz_file'
     dbName = 'quiz_db'
     if id == 1:
         dataframe = create_dataframe()
     else:
         dataframe = db_to_dataframe(dbName, tableName, fileName)
-    dataframe.loc[len(dataframe.index)] = (id, username, 0, 0, 0)
-    save_data_to_file(dataframe, dbName, tableName, fileName)
-    print(dataframe.tail(1))
+    # dataframe.loc[len(dataframe.index)] = (id, username, 0, 0, 0)
+    dtfr_final = put_values_dataframe(dataframe, id, username)
+    save_data_to_file(dtfr_final, dbName, tableName, fileName)
+    print(dtfr_final.tail(1))
 
 
 def main():

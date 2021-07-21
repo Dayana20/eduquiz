@@ -64,13 +64,13 @@ def create_engine_function(dbName):
 def save_data_to_file(dtfr, dbName, tableName, fileName):
     dtfr.to_sql(tableName, con=create_engine_function(dbName),
                 if_exists='replace', index=False)
-    os.system('mysqldump -u root -pcodio {} > {}.sql'.format(dbName, fileName))
+    os.system('mysqldump -u root -pcodio {} > /home/codio/workspace/eduquiz/{}.sql'.format(dbName, fileName))
 
 
 def load_database(dbName, fileName):
     os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS '
               + dbName + '; "')
-    os.system('mysql -u root -pcodio ' + dbName + ' < ' + fileName + '.sql')
+    os.system('mysql -u root -pcodio ' + dbName + ' < /home/codio/workspace/eduquiz/' + fileName + '.sql')
 
 
 def main():
