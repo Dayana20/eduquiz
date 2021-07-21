@@ -4,7 +4,8 @@ from registration_forms import RegistrationForm, LoginForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
-from flask_bcrypt import Bcrypt #install flask-bcrypt
+from encryption import bcrypt, encrypt_password, check_password_match
+from quiz import getting_dataframe, quizzes_display
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -13,17 +14,6 @@ app.config['SECRET_KEY'] = '0a85f9ea1879f713046952c8db9a1d6a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
-# Temp function so it can exist without error
-@app.route("/")
-def main():
-    return render_template('home.html', subtitle='Home Page')
-
-# @app.route("/home")
-# def home():
-#     return render_template('home.html', subtitle='Home Page')
-
-# Set up bcrypt for password hashing
-bcrypt = Bcrypt()
 
 # For storing user data
 class User(db.Model):
@@ -49,6 +39,47 @@ def check_password_match(pw_hash, guess):
     return bcrypt.check_password_hash(pw_hash, guess) 
   
 #register  
+
+# Saves the value of the logged in user. 
+# Uses the User class as inputs to log people in
+class Login_Manager():
+    def __init__(self):
+        self.user = None #default not logged in
+    
+    # Login user by setting it to current user
+    def login(self, user):
+        self.user = user
+
+    # Logout user by setting user to None
+    def logout(self, user):
+        self.user = None
+    
+    def is_logged_in(self):
+        if self.user is None:
+            return False
+        return True
+    
+    def get_username(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
+    
+    def get_email(self):
+        if not self.is_logged_in():
+            return ""
+        return self.user.username
+    
+    def __str__(self):
+        if self.is_logged_in():
+            return f'Currently {self.user.username} is logged in'  
+        else:
+            return 'Nobody is currently logged in'
+
+          
+log_manage = Login_Manager()      
+
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -95,19 +126,35 @@ def login():
             return render_template('login.html', title='Login', form=form)
         
         # Successful Login
+        log_manage.login(login_user)
         flash(f'{form.username.data} successfully logged in!', 'success')
         return redirect(url_for('home')) # if so - send to home page
         
     return render_template('login.html', title='Login', form=form)
 
 
+# Temp function so it can exist without error
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template('home.html', title='Home Page',
+                           subtitle='Hub for the website')
+
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
+#     if not log_manage.is_logged_in(): #uncomment out later
+#         flash(f'You must login first!', 'danger')
+#         return redirect(url_for('login')) # if so - send to home page
+
+
     #randomly select a quiz from sql table  
-    data  = quiz_data.split(',')
-    question = data[0][1:]
-    options = data[1:]
-    answer = " 'answer to question'])"
+#     data  = quiz_data
+#     print("DATA:", quiz_data,"END HERE")
+#     print("Options: ", quiz_options)
+    print(quiz_data)
+    question = 'question'
+    options = ['a','b','c']
+    answer = "a"
     if request.method== 'POST':
         user_answer = request.form.get('toReturn')
         if(user_answer==answer):
@@ -118,51 +165,170 @@ def general_quiz(quiz_data):
     return render_template('quiz.html', subtitle='Quiz',question=question,answer=answer,options=options )
 
 
-@app.route('/random/')
-def random():
-    quizzes = {'Random Quiz 1':['option1','option2','option3','answer to question'], 'Random Quiz 2':['option1','option2','option3','answer to question']}
-    
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Animals/')
+def Animals():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Animals')    
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/funny/')
-def funny():
-    quizzes = {'funny Quiz 1':['option1','option2','option3','answer to question'], 'funny Quiz 2':['option1','option2','option3','answer to question']}
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Art/')
+def Art():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Art')
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/educational/')
-def educational():
-    quizzes = {'educational Quiz 1':['option1','option2','option3','answer to question'], 'educational Quiz 2':['option1','option2','option3','answer to question']}
+@app.route('/Celebrities/')
+def Celebrities():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Celebrities')
+    return render_template('choose_quiz.html', altpass =data)
 
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Board_Games/')
+def Board_Games():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Board Games')
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/countries/')
-def countries():
-    quizzes = {'countries Quiz 1':['option1','option2','option3','answer to question'], 'countries Quiz 2':['option1','option2','option3','answer to question']}
+@app.route('/Books/')
+def Books():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Books')
+    return render_template('choose_quiz.html', altpass =data)
 
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Cartoon_Animations/')
+def Cartoon_Animations():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Cartoon & Animations')
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/languages/')
-def languages():
-    quizzes = {'languages Quiz 1':['option1','option2','option3','answer to question'], 'languages Quiz 2':['option1','option2','option3','answer to question']}
+@app.route('/Comics/')
+def Comics():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Comics')
+    return render_template('choose_quiz.html', altpass =data)
 
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Film/')
+def Film():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Film')
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/technology/')
-def technology():
-    quizzes = {'technology Quiz 1':['option1','option2','option3','answer to question'], 'technology Quiz 2':['option1','option2','option3','answer to question']}
+@app.route('/Anime_Manga/')
+def Anime_Manga():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Japanese Anime & Manga')
+    return render_template('choose_quiz.html', altpass =data)
 
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Music/')
+def Music():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Music')
+    return render_template('choose_quiz.html', altpass =data)
 
-@app.route('/food/')
-def food():
-    quizzes = {'food Quiz 1':['option1','option2','option3','answer to question'], 'food Quiz 2':['option1','option2','option3','answer to question']}
+@app.route('/Musicals_Theatres/')
+def Musicals_Theatres():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Musicals & Theatres')
+    return render_template('choose_quiz.html', altpass =data)
 
-    return render_template('choose_quiz.html', altpass =quizzes)
+@app.route('/Television/')
+def Television():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Television')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Video_Games/')
+def Video_Games():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Entertainment: Video Games')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Geography/')
+def Geography():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Geography')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/History/')
+def History():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'History')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Mythology/')
+def Mythology():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Mythology')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Politics/')
+def Politics():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Politics')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Science_Nature/')
+def Science_Nature():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Science & Nature')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Science_Computers/')
+def Science_Computers():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Science: Computers')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Science_Gadgets/')
+def Science_Gadgets():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Science: Gadgets')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Science_Mathematics/')
+def Science_Mathematics():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Science: Mathematics')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Sports/')
+def Sports():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Sports')
+    return render_template('choose_quiz.html', altpass =data)
+
+@app.route('/Vehicles/')
+def Vehicles():
+    df = getting_dataframe()
+    data = quizzes_display(df, 'Vehicles')
+    return render_template('choose_quiz.html', altpass =data)
+
 
 @app.route("/quiz_page", methods=['GET', 'POST'])
 def quiz_page():
-    quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
-    return render_template('choose_quiz.html', altpass=quizzes)
+    df = getting_dataframe()
+    data = quizzes_display(df, 'General Knowledge')
+    print(data) # answer,question,options
+#     if not log_manage.is_logged_in(): #uncomment later
+#         flash(f'You must login first!', 'danger')
+#         return redirect(url_for('login')) # if so - send to home page
+         
+    # quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
+    return render_template('choose_quiz.html', altpass=data)
+
+
+@app.route("/user_page/")
+def user_page():
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
+        
+  
+    username = log_manage.get_username()    
     
+    return render_template('user_page.html', title=f'Welcome {username}',
+                           subtitle=f'This is the webpage for {username}')
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

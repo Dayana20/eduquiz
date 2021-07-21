@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #ADD8E6;
+  background-color: #1C71C3;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -180,6 +180,10 @@ a.article-title:hover {
   position: absolute;
   background-color: #ADD8E6;
   min-width: 160px;
+  overflow:hidden;
+  overflow-y:scroll;
+  max-height: 300px;
+/*   max-height: 50px; */
 }
 
 /* Links inside the dropdown */
