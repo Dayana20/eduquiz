@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-
-      
+<!--     {% for elem in altpass %}
+            <p>{{elem}}</p>
+            <p>{{altpass.get(elem)}}</p>
+    {% endfor %} -->
     <!-- Header Section -->
     <header>
         <h1>Eduquiz</h1>
@@ -27,13 +29,33 @@
         <a href="#Anime">Anime</a>
         <a href="#Logo">Logo</a> -->
         <div class="dropdown-content">
-            <a href="/funny"> <button>Funny</button> </a>
-            <a href="/random"> <button>Random</button> </a>
-            <a href="/educational"> <button>Educational</button> </a>
-            <a href="/countries"> <button>Countries</button> </a>
-            <a href="/languages"> <button>Languages</button> </a>
-            <a href="/technology"> <button>Technology</button> </a>
-            <a href="/food"> <button>Food</button> </a>
+            <ul>
+                <a href="/Animals"> <button>Animals</button> </a>
+                <a href="/Art"> <button>Art</button> </a>
+                <a href="/Celebrities"> <button>Celebrities</button> </a>
+                <a href="/Board_Games"> <button>Entertainment: Board Games</button> </a>
+                <a href="/Books"> <button>Entertainment: Books</button> </a>
+                <a href="/Cartoon_Animations"> <button>Entertainment: Cartoon and Animations</button> </a>
+                <a href="/Comics"> <button>Entertainment: Comics</button> </a>
+                <a href="/Film"> <button>Entertainment: Film</button> </a>
+                <a href="/Anime_Manga"> <button>Entertainment: Japanese Anime and Manga</button> </a>
+                <a href="/Music"> <button>Entertainment: Music</button> </a>
+                <a href="/Musicals_Theatres"> <button>Entertainment: Musicals and Theatres</button> </a>
+                <a href="/Television"> <button>Entertainment: Television</button> </a>
+                <a href="/Video_Games"> <button>Entertainment: Video Games</button> </a>
+                <a href="/quiz_page"> <button>General Knowledge</button> </a>
+                <a href="/Geography"> <button>Geography</button> </a>
+                <a href="/History"> <button>History</button> </a>
+                <a href="/Mythology"> <button>Mythology</button> </a>
+                <a href="/Politics"> <button>Politics</button> </a>
+                <a href="/Science_Nature"> <button>Science and Nature</button> </a>
+                <a href="/Science_Computers"> <button>Science: Computers</button> </a>
+                <a href="/Science_Gadgets"> <button>Science: Gadgets</button> </a>
+                <a href="/Science_Mathematics"> <button>Science: Mathematics</button> </a>
+                <a href="/Sports"> <button>Sports</button> </a>
+                <a href="/Vehicles"> <button>Vehicles</button> </a>
+            </ul>
+            
         </div>
         
     </div>
@@ -44,9 +66,10 @@
             <h3>Quizes:</h3>
         </section>
         <!-- prints from altpass list -->
-        {% for key,value in altpass.items() %}
-            <a class="type_button" href="/general_quiz/{{key,value}}">
-                {{key}}
+        {% for key in altpass.keys() %}
+            <!--/general_quiz/<string:quiz_data>/<string:quiz_options>/<string:key>      -->
+            <a class="type_button" href="/general_quiz/{{key}}">
+               {{key}}
             </a>
         {% endfor %}
 
