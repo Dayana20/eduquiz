@@ -26,9 +26,6 @@ def create_html_string(fig):
   data = base64.b64encode(buf.getbuffer()).decode("ascii")
   html_string = f'data:image/png;base64,{data}'
   
-  #DEBUG
-  print(html_string)
-  
   return html_string
 
 
@@ -68,7 +65,7 @@ def create_bar_html(x, x_l, height, height_l, title):
     bar = fig.add_subplot()
     bar.bar(x=x, height=height)
     bar.set_xlabel(x_l)
-    bar.set_ylabel(heightl)
+    bar.set_ylabel(height_l)
     bar.set_title(title)
     
     # Create and return html string
