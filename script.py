@@ -5,6 +5,7 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 import secrets
 from encryption import bcrypt, encrypt_password, check_password_match
+from user_db import create_dataframe, db_to_dataframe, new_user
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -89,6 +90,10 @@ def register():
         db.session.commit()
         
         flash(f'Account created for {form.username.data}!', 'success')
+
+        # creating a user instance in user_data table
+        new_user(user.id, user.username)
+
         return redirect(url_for('login')) # if so - send to home page
     return render_template('register.html', title='Register', form=form)
   
