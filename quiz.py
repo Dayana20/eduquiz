@@ -3,15 +3,21 @@ from apis import create_dataframe, create_engine_function, load_database
 from apis import save_data_to_file
 
 
+# generate a list of all available categories
 def list_categories(dataframe):
     categories = sorted(list(dataframe['Category'].unique()))
     return categories
 
 
+# one quiz session (5 questions)
 def render_quiz(dataframe, category, difficulty):
     quiz_df = dataframe[(dataframe['Category'] == category) &
                         (dataframe['Difficulty'] == difficulty)]
-    random_quiz = quiz_df.sample(2)
+    # randomize the dataframe so that we don't always get the same questions
+    random_quiz = quiz_df.sample(5)
+    score = 0
+    
+    # iterate over the dataframe
     for index, row in random_quiz.iterrows():
         if row['Question Type'] == 'boolean':
             print("         Answer the following question! (True or False)")
@@ -19,6 +25,7 @@ def render_quiz(dataframe, category, difficulty):
             print(row['Question'])
             user_answer = input()
             if user_answer == row['Correct Answer']:
+                score+=1
                 print("You got it right!")
             else:
                 print("That is not correct!")
@@ -31,9 +38,11 @@ def render_quiz(dataframe, category, difficulty):
             print(row['Answer Choices'])
             user_answer = input()
             if user_answer == row['Correct Answer']:
+                score+=1
                 print("You got it right!")
             else:
                 print("That is not correct!")
+    print(f'Your score on this quiz is {score}/5')
 
     return quiz_df
 
