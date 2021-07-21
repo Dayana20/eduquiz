@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 import secrets
 from encryption import bcrypt, encrypt_password, check_password_match
 from user_db import create_dataframe, db_to_dataframe, new_user
+from plot_creation import *
+
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)  
@@ -209,11 +211,25 @@ def user_page():
         flash(f'You must login first!', 'danger')
         return redirect(url_for('login')) # if so - send to home page
         
-  
     username = log_manage.get_username()    
-    
+    # NOTE FOR DEV, REMOVE FOR FINAL PRODUCT
+    # Create htmlstring based on data
+    #
+    # 1) Get data for specific username
+    # 2) Set up arrays for data axis to pass
+    # 3) Call functions:
+    # Example:   
+    xArray = ["Me21", "you32", "TheChicken202", "Ninja99"]
+    yArray = [3,10,2,5]
+    htmlString = create_bar_html(xArray,
+                                "Usernames",
+                                 yArray,
+                                 "Total Points/Quizzes",
+                                 "Scores for random users SAMPLE")
+
     return render_template('user_page.html', title=f'Welcome {username}',
-                           subtitle=f'This is the webpage for {username}')
+                           subtitle=f'This is the webpage for {username}',
+                           plot=htmlString)
 
 
 if __name__ == '__main__':
