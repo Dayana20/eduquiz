@@ -86,25 +86,18 @@ def getting_dataframe(): # got this from main to use the dataframe
                                   con=create_engine_function(dbName))
     return dataframe
 def get_options(df, que):
-#     print(df.keys())
-#     print(df['Question'][33])
-#     for i,elem in enumerate(df['Question']):
-#         print(elem)
-#         if(elem == question):
-#             answer = df['Correct Answer'][i]
-#             options = df['Answer Choices'][i]
-#         else:
-#             print(question)
-#             return
-    print("questions::", que)
-#     print(df.keys())
+    found = False
     for i in range(len(df)):
         if(df['Question'][i][:-1]==que):
             answer = df['Correct Answer'][i]
             options = df['Answer Choices'][i]
             print("WE MADE IT")
-            return answer,options
-    return "Broken", ["Try","Another","Quiz","THIS IS BROKEN :("]
+            found = True
+#             return answer,options
+    if(found==False):
+        return "Broken", ["Try","Another","Quiz","THIS IS BROKEN :("]
+    else:
+        return answer,options
     
 # def main():
 #     # defining some terms

@@ -148,29 +148,44 @@ def home():
     return render_template('home.html', title='Home Page',
                            subtitle='Hub for the website')
 
+class Question:
+    def __init__(self):
+        self.question = None
+        self.answer = None
+        self.options = None
+    def get_answer():
+        return self.answer
+    def get_options():
+        return self.options
+
 df = getting_dataframe()
+  
+# defining question
+question = Question()
 
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
 #     if not log_manage.is_logged_in(): #uncomment out later
 #         flash(f'You must login first!', 'danger')
 #         return redirect(url_for('login')) # if so - send to home page
-#     print(df)
-
-#     #randomly select a quiz from sql table  
-    answer, options = get_options(df, quiz_data)
-    if(isinstance(options,str)):
-        options = options.split(',')
+    print(question.answer, question.options)
+    if request.method == 'GET':
+        question.answer, question.options = get_options(df, quiz_data)
+        print(quiz_data,question.answer, question.options)
+        if(isinstance(question.options,str)):
+            question.options = question.options.split(',') 
     if request.method== 'POST':
         user_answer = request.form.get('toReturn')
-        if(user_answer==answer):
+        print([user_answer.strip(' ')],"++++",[question.answer.strip(' ')])
+        if(user_answer.strip(' ')==question.answer.strip(' ')):
             flash('Correct!')
         else:
             flash('Incorrect! :(')
         return render_template('home.html', subtitle='Home Page')
-    return render_template('quiz.html', subtitle='Quiz',question=quiz_data,answer=answer,options=options )
+    return render_template('quiz.html', subtitle='Quiz',question=quiz_data,answer=question.answer,options=question.options )
 
-
+    
+    
 @app.route('/Animals/')
 def Animals():
     df = getting_dataframe()
