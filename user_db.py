@@ -1,11 +1,5 @@
-# from script import User 
 import pandas as pd
 from apis import create_engine_function, save_data_to_file, load_database
-
-
-# here, was trying to figure out how to get access to user ids
-# user_1 = User.query.filter_by(username='holla').first()
-# print(user_1.id)
 
 
 def create_dataframe():
@@ -38,28 +32,23 @@ def new_user(id, username):
     # dataframe.loc[len(dataframe.index)] = (id, username, 0, 0, 0)
     dtfr_final = put_values_dataframe(dataframe, id, username)
     save_data_to_file(dtfr_final, dbName, tableName, fileName)
-    print(dtfr_final.tail(1))
 
 
-def update_score(username, score):
+def update_score(username, correct):
     tableName = 'user_data'
     fileName = 'quiz_file'
     dbName = 'quiz_db'
     dataframe = db_to_dataframe(dbName, tableName, fileName)
 
     # updating the fields in the dataframe
-    dataframe.loc[dataframe['Username'] == username, ['Score']] += score
+    if correct:
+        dataframe.loc[dataframe['Username'] == username, ['Score']] += 1
     dataframe.loc[dataframe['Username'] == username, ['Quizzes Done']] += 1
-    dataframe.loc[dataframe['Username'] == username, ['Questions Attempted']] += 5
-    
+    dataframe.loc[dataframe['Username'] == username,
+                  ['Questions Attempted']] += 1
+
     # saving the new dataframe into the database
     save_data_to_file(dataframe, dbName, tableName, fileName)
-    print(dataframe[dataframe['Username'] == username])
-
-
-def main():
-    # defining some terms
-    update_score('hey', 3)
 
 
 if __name__ == "__main__":

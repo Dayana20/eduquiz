@@ -7,7 +7,7 @@ import secrets
 from encryption import bcrypt, encrypt_password, check_password_match
 from quiz import getting_dataframe, quizzes_display, get_options
 
-from user_db import create_dataframe, db_to_dataframe, new_user
+from user_db import new_user, update_score
 from plot_creation import *
 
 
@@ -180,10 +180,14 @@ def general_quiz(quiz_data):
         user_answer = request.form.get('toReturn')
         print([user_answer.strip(' ')],"++++",[question.answer.strip(' ')])
         if(user_answer.strip(' ')==question.answer.strip(' ')):
-            flash('Correct!')
+            flash('Correct!', 'success')
+            if log_manage.is_logged_in():
+                update_score(log_manage.get_username(), True)
         else:
-            flash('Incorrect! :(')
-        return render_template('home.html', subtitle='Home Page')
+            flash('Incorrect! :(', 'danger')
+            if log_manage.is_logged_in():
+                update_score(log_manage.get_username(), False)
+        return redirect(url_for('user_page')) # if so - send to home page
     return render_template('quiz.html', subtitle='Quiz',question=quiz_data,answer=question.answer,options=question.options )
 
     
