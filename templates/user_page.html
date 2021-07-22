@@ -1,7 +1,21 @@
 {% extends "layout.html" %}
+{% block navigation_bar %}
+    {{ super() }}
+    <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+    <a class="nav-item nav-link" href= "/user_page">User Page</a>
+    <a class="nav-item nav-link" href= "/logout">Logout</a>
+{% endblock %}
+{% block navigation_bar2 %}
+    {{ super() }}
+    <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+    <a class="nav-item nav-link" href= "/user_page">User Page</a>
+    <a class="nav-item nav-link" href= "/logout">Logout</a>
+{% endblock %}
+
 {% block content %}
     <h2>{{ subtitle }}</h2>
     <p>{{ text }}</p>
 
     <img src='{{plot}}'/>
+<!--  ADD LOG OUT BUTTON    -->
 {% endblock content %}

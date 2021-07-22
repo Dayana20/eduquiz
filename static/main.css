@@ -26,6 +26,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
+
 .content-section {
   background: #ffffff;
   padding: 10px 20px;
@@ -81,6 +82,42 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 /* END OF LAYOUT */
+
+/* HOME PAGE */
+.aboutme{
+    text-align:center;
+    max-width:300%;
+    
+}
+.group_mem{
+    margin-top:30%;
+    margin-bottom:100px;
+    max-width:300px;
+    float: left;
+    margin-left:50px;
+    background-color: #c3c3e5;
+}
+/* SOURCE: https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_background_hero  */
+.hero-image { 
+  background-image: url("bubble.gif");
+  background-color: #cccccc;
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+/* END OF HOME PAGE */
+
 
 /* Selection Page */
 .head1 {
@@ -186,6 +223,7 @@ a.article-title:hover {
 /*   max-height: 50px; */
 }
 
+
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
@@ -207,13 +245,59 @@ a.article-title:hover {
 .group_mem{
     float: left;
     margin-left:50px;
-}
-
-.group_mem{
     background-color: #c3c3e5;
 }
+
+/* .group_mem{
+    background-color: #c3c3e5;
+} */
 
 .ending{
     margin-top: 100px;
     color:#991010;
 }
+
+/* Navigation bar */
+.dropbtn-nav {
+  margin-top:30px;
+  margin-bottom:30px;
+/*   background-color: #ADD8E6; */
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown-nav {
+  display: none;
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content-nav {
+  display: none;
+  position: absolute;
+  background-color: #e3f2f7;
+  min-width: 160px;
+}
+
+
+/* Links inside the dropdown */
+.dropdown-content-nav a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content-nav a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown-nav:hover .dropdown-content-nav {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown-nav:hover .dropbtn-nav {background-color: #ADD8E6;}
+
+/* END OF DROPDOWN DROPDOWN NAV BAR */
