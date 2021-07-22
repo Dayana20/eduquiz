@@ -43,8 +43,8 @@ def render_quiz(dataframe, category, difficulty):
             else:
                 print("That is not correct!")
     print(f'Your score on this quiz is {score}/5')
+    return score
 
-    return quiz_df
 
 def quiz_data(dataframe, category, difficulty = 'easy'): # for quiz page
     quiz_df = dataframe[(dataframe['Category'] == category) &
