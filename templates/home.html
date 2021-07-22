@@ -1,18 +1,71 @@
-{% extends "layout.html" %}
-{% block content %}
-    <p>{{ subtitle }}</p>
-    <h1> Welcome ! </h1>
-    <p> Introduction </p>
-    <h2> About </h2>
-    <div  class="group_mem_background">
-        <div class="group_mem"> <h4>Person 1</h4> <p>About ME</p></div>
-        <div class="group_mem"> <h4>Person 2</h4><p>About ME</p> </div>
-        <div class="group_mem"> <h4>Person 3</h4> <p>About ME</p></div>
+
+<div class="home body">
+
+    <div class="hero-image">
+      <div class="hero-text">
+        <h1 style="font-size:50px">Are You Bored Out Of Your Mind?</h1>
+        <h2>You Don't Know What To Do?</h2>
+        <h3> Well Join Us For Some Trivia</h3>
+          
+        {% if login_status %}
+        {% else %}
+          <a href="/register"><button>Register</button></a>
+        {% endif %}
+      </div>
     </div>
+    <h1> Who Are We? </h1>
+        <h5>Four Undergrads Looking To Help Our Community</h5>
+    
+<!--     <div  class="aboutme" style="width: 10%; margin: 0px auto;"-->
+        <div class="aboutme" >
+            <h4>Anthony Meza</h4>
+            <p>information here</p>
+        </div>
+        <div class="aboutme">
+            <h4>Chris Berniel Cobashatse</h4>
+            <p>information here</p>
+        </div>
+        <div class="aboutme">
+            <h4>Dayana Alejandro</h4>
+            <p>information here</p>
+        </div>
+        <div class="aboutme">
+            <h4>Fitsum Maru</h4>
+            <p>information here</p>
+        </div>
+   
+
 
 
     <div class="ending">
-        <h1> Who Are We? </h1>
+        <h1> Mission Statement </h1>
+        <h5> Let Us Help You</h5>
+        <h6> Start using your time more wisely</h6>
         
     </div>
-{% endblock content %}
+</div>
+{% extends "layout.html" %}
+
+{% block navigation_bar %}
+    {{ super() }}
+    {% if login_status %}
+        <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+        <a class="nav-item nav-link" href= "/user_page">User Page</a>
+    {% else %}
+        <a class="nav-item nav-link" href="/login">Login</a>
+        <a class="nav-item nav-link" href="/register">Register</a>
+    {% endif %}
+{% endblock %}
+{% block navigation_bar2 %}
+    {{ super() }}
+    {% if login_status %}
+        <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+        <a class="nav-item nav-link" href= "/user_page">User Page</a>
+    {% else %}
+        <a class="nav-item nav-link" href="/login">Login</a>
+        <a class="nav-item nav-link" href="/register">Register</a>
+    {% endif %}
+{% endblock %}
+
+<!-- {% block content %}
+{% endblock content %} -->

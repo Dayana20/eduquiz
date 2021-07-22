@@ -55,7 +55,7 @@ class Login_Manager():
         self.user = user
 
     # Logout user by setting user to None
-    def logout(self, user):
+    def logout(self):
         self.user = None
     
     def is_logged_in(self):
@@ -136,7 +136,7 @@ def login():
         # Successful Login
         log_manage.login(login_user)
         flash(f'{form.username.data} successfully logged in!', 'success')
-        return redirect(url_for('home')) # if so - send to home page
+        return redirect(url_for('user_page')) # if so - send to home page
         
     return render_template('login.html', title='Login', form=form)
 
@@ -145,8 +145,10 @@ def login():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home Page',
-                           subtitle='Hub for the website')
+    
+    return render_template('home.html', title='',
+                           subtitle='Hub for the website',
+                           login_status=log_manage.is_logged_in())
 
 class Question:
     def __init__(self):
@@ -165,9 +167,9 @@ question = Question()
 
 @app.route('/general_quiz/<string:quiz_data>', methods=['GET','POST'])
 def general_quiz(quiz_data):
-#     if not log_manage.is_logged_in(): #uncomment out later
-#         flash(f'You must login first!', 'danger')
-#         return redirect(url_for('login')) # if so - send to home page
+    if not log_manage.is_logged_in():
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
     print(question.answer, question.options)
     if request.method == 'GET':
         question.answer, question.options = get_options(df, quiz_data)
@@ -334,9 +336,9 @@ def quiz_page():
     df = getting_dataframe()
     data = quizzes_display(df, 'General Knowledge')
 #     print(data) # answer,question,options
-#     if not log_manage.is_logged_in(): #uncomment later
-#         flash(f'You must login first!', 'danger')
-#         return redirect(url_for('login')) # if so - send to home page
+    if not log_manage.is_logged_in(): 
+        flash(f'You must login first!', 'danger')
+        return redirect(url_for('login')) # if so - send to home page
          
     # quizzes = {'Quiz 1':['option1','option2','option3','answer to question'], 'Quiz 2':['option1','option2','option3','answer to question']}
     return render_template('choose_quiz.html', altpass=data)
@@ -367,6 +369,18 @@ def user_page():
     return render_template('user_page.html', title=f'Welcome {username}',
                            subtitle=f'This is the webpage for {username}',
                            plot=htmlString)
+
+  
+
+@app.route("/logout")
+def logout():
+    # Logout current user logged in
+    
+    flash(f'{log_manage.get_username()} logged out successfully', 'success')
+    
+    log_manage.logout()
+    return redirect(url_for('login')) # if so - send to home page
+
 
 
 if __name__ == '__main__':

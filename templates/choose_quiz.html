@@ -1,4 +1,16 @@
 {% extends "layout.html" %}
+
+{% block navigation_bar %}
+    {{ super() }}
+    <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+    <a class="nav-item nav-link" href= "/user_page">User Page</a>
+{% endblock %}
+{% block navigation_bar2 %}
+    {{ super() }}
+    <a class="nav-item nav-link" href="/quiz_page">Quizzes</a> 
+    <a class="nav-item nav-link" href= "/user_page">User Page</a>
+{% endblock %}
+
 {% block content %}
 <!--     {% for elem in altpass %}
             <p>{{elem}}</p>
