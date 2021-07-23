@@ -180,14 +180,14 @@ def general_quiz(quiz_data):
         user_answer = request.form.get('toReturn')
         print([user_answer.strip(' ')],"++++",[question.answer.strip(' ')])
         if(user_answer.strip(' ')==question.answer.strip(' ')):
-            flash('Correct!')
+            flash('Correct!', 'success')
             if log_manage.is_logged_in():
                 update_score(log_manage.get_username(), True)
         else:
-            flash('Incorrect! :(')
+            flash('Incorrect! :(', 'danger')
             if log_manage.is_logged_in():
                 update_score(log_manage.get_username(), False)
-        return render_template('home.html', subtitle='Home Page')
+        return redirect(url_for('user_page')) # if so - send to home page
     return render_template('quiz.html', subtitle='Quiz',question=quiz_data,answer=question.answer,options=question.options )
 
     
