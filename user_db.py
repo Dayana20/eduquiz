@@ -51,5 +51,18 @@ def update_score(username, correct):
     save_data_to_file(dataframe, dbName, tableName, fileName)
 
 
+def get_score(username):
+    tableName = 'user_data'
+    fileName = 'quiz_file'
+    dbName = 'quiz_db'
+    dataframe = db_to_dataframe(dbName, tableName, fileName)
+
+    # updating the fields in the dataframe
+    score = dataframe[dataframe['Username'] == username]['Score']
+    quizzes_done = dataframe[dataframe['Username'] == username]['Quizzes Done']
+    questions_attempted = dataframe[dataframe['Username'] == username]['Questions Attempted']
+    return int(score)
+
+
 if __name__ == "__main__":
     main()

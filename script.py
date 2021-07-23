@@ -7,7 +7,7 @@ import secrets
 from encryption import bcrypt, encrypt_password, check_password_match
 from quiz import getting_dataframe, quizzes_display, get_options
 
-from user_db import new_user, update_score
+from user_db import new_user, update_score, get_score
 from plot_creation import *
 
 
@@ -351,6 +351,11 @@ def user_page():
         return redirect(url_for('login')) # if so - send to home page
         
     username = log_manage.get_username()    
+    score = get_score(username)
+    anthony_score = get_score("anthony")
+    berniel_score = get_score("berniel")
+    dayana_score = get_score("dayana")
+    fitsum_score = get_score("fitsum")
     # NOTE FOR DEV, REMOVE FOR FINAL PRODUCT
     # Create htmlstring based on data
     #
@@ -358,16 +363,16 @@ def user_page():
     # 2) Set up arrays for data axis to pass
     # 3) Call functions:
     # Example:   
-    xArray = ["Me21", "you32", "TheChicken202", "Ninja99"]
-    yArray = [3,10,2,5]
+    xArray = [username, "anthony", "fitsum", "dayana", "berniel"]
+    yArray = [score,anthony_score,fitsum_score,dayana_score,berniel_score]
     htmlString = create_bar_html(xArray,
                                 "Usernames",
                                  yArray,
-                                 "Total Points/Quizzes",
-                                 "Scores for random users SAMPLE")
+                                 "Total Points Earned",
+                                 "Your score compared to our team\'s!")
 
-    return render_template('user_page.html', title=f'Welcome {username}',
-                           subtitle=f'This is the webpage for {username}',
+    return render_template('user_page.html', title=f'Welcome, {username}!',
+                           subtitle=f'This is your performance compared to our team\'s!',
                            plot=htmlString)
 
   

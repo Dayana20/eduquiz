@@ -65,7 +65,7 @@ CREATE TABLE `user_data` (
 
 LOCK TABLES `user_data` WRITE;
 /*!40000 ALTER TABLE `user_data` DISABLE KEYS */;
-INSERT INTO `user_data` VALUES (1,'user99',0,0,0),(2,'abm',1,2,2);
+INSERT INTO `user_data` VALUES (1,'anthony',3,3,3),(2,'fitsum',7,7,7),(3,'dayana',5,5,5),(4,'berniel',1,1,1),(5,'example',0,0,0);
 /*!40000 ALTER TABLE `user_data` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-22 22:19:29
+-- Dump completed on 2021-07-23 14:24:16
