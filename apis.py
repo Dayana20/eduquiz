@@ -4,6 +4,7 @@ import sqlalchemy
 import os
 import random
 from sqlalchemy import create_engine
+import html
 
 
 def get_data_from_api(base_url):
@@ -19,25 +20,25 @@ def get_data_items(results):
     category = results['category']
     question_type = results['type']
     difficulty = results['difficulty']
-    question = results['question']
-    correct_answer = results['correct_answer']
+    question = html.unescape(results['question'])
+    correct_answer = html.unescape(results['correct_answer'])
     incorrect_answers_list = results['incorrect_answers']  # this is a list
     if len(incorrect_answers_list) == 1:
-        incorrect_answers = incorrect_answers_list[0]
+        incorrect_answers = html.unescape(incorrect_answers_list[0])
         answer_choices = 'True, False'
     else:
-        incorrect_answers = incorrect_answers_list[0] + ', ' +\
-            incorrect_answers_list[1] + ', ' +\
-            incorrect_answers_list[2]
+        incorrect_answers = html.unescape(incorrect_answers_list[0]) + ', ' +\
+            html.unescape(incorrect_answers_list[1]) + ', ' +\
+            html.unescape(incorrect_answers_list[2])
 
         # storing all answer choices in a random order
         answer_choices_list = incorrect_answers_list
         answer_choices_list.append(correct_answer)
         random.shuffle(answer_choices_list)
-        answer_choices = answer_choices_list[0] + ', ' +\
-            answer_choices_list[1] + ', ' +\
-            answer_choices_list[2] + ', ' +\
-            answer_choices_list[3]
+        answer_choices = html.unescape(answer_choices_list[0]) + ', ' +\
+            html.unescape(answer_choices_list[1]) + ', ' +\
+            html.unescape(answer_choices_list[2]) + ', ' +\
+            html.unescape(answer_choices_list[3])
 
     return category, question_type, difficulty, question, correct_answer,\
         incorrect_answers, answer_choices
